@@ -5,7 +5,7 @@
  * Système d'Aide à l'Exploitation et à l'Information Voyageurs
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { TimeController } from '@/components/timeline/TimeController';
 import { useBusAnimation } from '@/hooks/useBusAnimation';
@@ -13,8 +13,8 @@ import { useFleetStore } from '@/stores/useFleetStore';
 import { useMapStore } from '@/stores/useMapStore';
 import type { BusInstance } from '@/types';
 
-// Import dynamique pour éviter les problèmes SSR avec Leaflet
-const MapView = dynamic(() => import('@/components/map/MapView').then((mod) => mod.MapView), {
+// Import dynamique pour éviter les problèmes SSR avec MapLibre GL
+const MapViewGL = dynamic(() => import('@/components/map/MapViewGL').then((mod) => mod.MapViewGL), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center bg-muted">
@@ -23,13 +23,19 @@ const MapView = dynamic(() => import('@/components/map/MapView').then((mod) => m
   ),
 });
 
-const BusMarker = dynamic(() => import('@/components/map/BusMarker').then((mod) => mod.BusMarker), {
+const BusMarkerGL = dynamic(() => import('@/components/map/BusMarkerGL').then((mod) => mod.BusMarkerGL), {
   ssr: false,
 });
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const { vehicles, initializeFleet } = useFleetStore();
   const { setRouteGeometry } = useMapStore();
+
+  // Éviter l'erreur d'hydratation SSR avec Zustand persist
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Initialiser la route mock et le bus test au chargement
   useEffect(() => {
@@ -69,7 +75,15 @@ export default function Home() {
   }, [initializeFleet, setRouteGeometry]);
 
   // Démarrer l'animation des bus
-  useBusAnimation({ enabled: true });
+  useBusAnimation({ enabled: mounted });
+
+  if (!mounted) {
+    return (
+      <div className="flex items-center justify-center h-screen w-full bg-background">
+        <p className="text-muted-foreground">Chargement...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden">
@@ -90,12 +104,12 @@ export default function Home() {
 
       {/* Main Map Area */}
       <main className="flex-1 relative">
-        <MapView>
+        <MapViewGL>
           {/* Afficher tous les bus */}
           {vehicles.map((bus) => (
-            <BusMarker key={bus.id} bus={bus} />
+            <BusMarkerGL key={bus.id} bus={bus} />
           ))}
-        </MapView>
+        </MapViewGL>
       </main>
 
       {/* Time Controller (fixed bottom) */}
