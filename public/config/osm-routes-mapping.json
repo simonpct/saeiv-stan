@@ -1,0 +1,53 @@
+{
+  "routes": [
+    {
+      "gtfs_route_id": "1",
+      "route_short_name": "T1",
+      "osm_relation_id": null,
+      "color": "#E30613",
+      "preload": true,
+      "comment": "Tempo 1 - OSM relation ID à identifier"
+    },
+    {
+      "gtfs_route_id": "2",
+      "route_short_name": "T2",
+      "osm_relation_id": null,
+      "color": "#0069B4",
+      "preload": true,
+      "comment": "Tempo 2 - Laxou Sapiniere <> Laneuveville Centre"
+    },
+    {
+      "gtfs_route_id": "3",
+      "route_short_name": "T3",
+      "osm_relation_id": null,
+      "color": "#009639",
+      "preload": true,
+      "comment": "Tempo 3 - Villers Campus <> Seichamps Haie Cerlin"
+    },
+    {
+      "gtfs_route_id": "4",
+      "route_short_name": "T4",
+      "osm_relation_id": null,
+      "color": "#FFDD04",
+      "preload": true,
+      "comment": "Tempo 4 - Laxou CLB <> Houdemont Porte Sud"
+    },
+    {
+      "gtfs_route_id": "5",
+      "route_short_name": "T5",
+      "osm_relation_id": null,
+      "color": "#4B2884",
+      "preload": true,
+      "comment": "Maxeville Meurthe Canal - Vandoeuvre Roberval"
+    },
+    {
+      "gtfs_route_id": "11",
+      "route_short_name": "11",
+      "osm_relation_id": null,
+      "color": "#FF7900",
+      "preload": false,
+      "comment": "Artem <> Saulxures Lorraine"
+    }
+  ],
+  "_comment": "Pour identifier les OSM relation IDs, utiliser https://overpass-turbo.eu/ avec la requête dans SPECS.md section 12.2"
+}
