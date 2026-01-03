@@ -14,7 +14,7 @@ interface MapViewGLProps {
 }
 
 // Style vectoriel gratuit Carto Dark Matter
-const DARK_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+const DARK_STYLE = 'https://api.maptiler.com/maps/019b84b4-d9a6-77b2-bdfc-ebaba7957a4b/style.json?key=BPzMB1jeMqToVdXDvhUP';
 
 export function MapViewGL({ children }: MapViewGLProps) {
   return (

@@ -11,6 +11,7 @@ import { TimeController } from '@/components/timeline/TimeController';
 import { useBusAnimation } from '@/hooks/useBusAnimation';
 import { useFleetStore } from '@/stores/useFleetStore';
 import { useMapStore } from '@/stores/useMapStore';
+import { useTimeStore } from '@/stores/useTimeStore';
 import type { BusInstance } from '@/types';
 
 // Import dynamique pour éviter les problèmes SSR avec MapLibre GL
@@ -31,11 +32,23 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const { vehicles, addVehicle } = useFleetStore();
   const { setRouteGeometry } = useMapStore();
+  const play = useTimeStore((state) => state.play);
 
   // Éviter l'erreur d'hydratation SSR avec Zustand persist
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Auto-play au démarrage (pour démo)
+  useEffect(() => {
+    if (mounted) {
+      // Délai pour s'assurer que tout est initialisé
+      setTimeout(() => {
+        play();
+        console.log('▶️ Auto-play activé');
+      }, 100);
+    }
+  }, [mounted, play]);
 
   // Initialiser la route mock et le bus test au chargement
   useEffect(() => {

@@ -4,8 +4,9 @@
  * État de tous les bus et leurs positions
  */
 
-import { create } from 'zustand';
-import type { BusInstance, BusPositionUpdate } from '@/types';
+import vehicles from "@/lib/vehicles";
+import type { BusInstance, BusPositionUpdate } from "@/types";
+import { create } from "zustand";
 
 interface FleetState {
   // État
@@ -22,13 +23,13 @@ interface FleetState {
   // Sélecteurs
   getBusById: (busId: string) => BusInstance | undefined;
   getBusesByRoute: (routeId: string) => BusInstance[];
-  getBusesByState: (state: BusInstance['state']) => BusInstance[];
+  getBusesByState: (state: BusInstance["state"]) => BusInstance[];
   getActiveBuses: () => BusInstance[];
 }
 
 export const useFleetStore = create<FleetState>((set, get) => ({
   // État initial
-  vehicles: [],
+  vehicles,
   lastUpdate: Date.now(),
 
   // Initialiser la flotte
@@ -66,6 +67,7 @@ export const useFleetStore = create<FleetState>((set, get) => ({
         const updatedVehicle: BusInstance = {
           ...vehicle,
           position: update.position,
+          previousDistance: update.position.distance, // CRUCIAL: mettre à jour previousDistance
           lastUpdateTime: Date.now(),
         };
 
@@ -121,7 +123,7 @@ export const useFleetStore = create<FleetState>((set, get) => ({
   getActiveBuses: () => {
     const { vehicles } = get();
     return vehicles.filter(
-      (v) => v.state === 'IN_SERVICE' || v.state === 'DEADHEAD'
+      (v) => v.state === "IN_SERVICE" || v.state === "DEADHEAD"
     );
   },
 }));

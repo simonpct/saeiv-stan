@@ -57,8 +57,9 @@ export interface VehiclePosition {
  * Instance d'un bus dans la flotte
  */
 export interface BusInstance {
-  id: string; // ex: "101"
-  modelId: string; // ref vers BusModelStats (ex: "hess_lightram_25")
+  id: string;
+  modelId: string;
+  immatriculation: string;
   osmParkingWayId?: number; // ID OpenStreetMap de la place de parking
 
   // Affectation théorique
