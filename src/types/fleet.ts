@@ -35,17 +35,22 @@ export interface VehicleTelemetry {
 }
 
 /**
+ * Position d'un segment de véhicule
+ */
+export interface SegmentPosition {
+  lat: number;
+  lng: number;
+  bearing: number; // degrés (orientation du segment)
+}
+
+/**
  * Position calculée d'un véhicule
  */
 export interface VehiclePosition {
-  segments: Array<{
-    lat: number;
-    lng: number;
-    bearing: number; // degrés (orientation du segment)
-  }>;
+  segments: SegmentPosition[];
   speed: number; // km/h
+  distance?: number; // Distance parcourue sur le tracé (mètres)
   nextStop?: string; // ID du prochain arrêt GTFS
-  distanceTraveled?: number; // Distance parcourue sur le tracé (mètres)
 }
 
 /**
