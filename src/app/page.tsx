@@ -29,7 +29,7 @@ const BusMarkerGL = dynamic(() => import('@/components/map/BusMarkerGL').then((m
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  const { vehicles, initializeFleet } = useFleetStore();
+  const { vehicles, addVehicle } = useFleetStore();
   const { setRouteGeometry } = useMapStore();
 
   // Éviter l'erreur d'hydratation SSR avec Zustand persist
@@ -52,6 +52,7 @@ export default function Home() {
       const testBus: BusInstance = {
         id: '101',
         modelId: 'hess_lightram_25',
+        immatriculation: 'TEST-101',
         state: 'IN_SERVICE',
         currentRoute: 'T1',
         position: {
@@ -67,12 +68,12 @@ export default function Home() {
         previousDistance: 0,
       };
 
-      initializeFleet([testBus]);
+      addVehicle(testBus);
       console.log('✅ Bus test initialisé:', testBus);
     }
 
     initializeDemo();
-  }, [initializeFleet, setRouteGeometry]);
+  }, [setRouteGeometry, addVehicle]);
 
   // Démarrer l'animation des bus
   useBusAnimation({ enabled: mounted });
